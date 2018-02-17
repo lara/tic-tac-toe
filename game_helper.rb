@@ -14,14 +14,10 @@ class GameHelper
   end
 
   def self.colorize(string)
-    if string == "X" || string == "O"
-      string.red
-    else
-      string.white
-    end
+    (string == "X" || string == "O") ? string.red : string.white
   end
 
-  def self.calculate_winner(table)
+  def self.calculate_win(table)
     rows = [
       [0, 1, 2],
       [3, 4, 5],
@@ -34,7 +30,7 @@ class GameHelper
     ]
     rows.each do |row|
       a, b, c = row
-      if (table[a] && (table[a] == table[b]) && (table[a] == table[c]))
+      if ((table[a] == table[b]) && (table[a] == table[c]))
         return true
       end
     end
@@ -42,11 +38,6 @@ class GameHelper
   end
 
   def self.calculate_tie(table)
-    count = table.count("X") + table.count("O")
-    if count == 9
-      return true
-    else
-      return false
-    end
+    (table.count("X") + table.count("O") == 9) ? true : false
   end
 end
