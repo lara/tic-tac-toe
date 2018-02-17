@@ -10,13 +10,13 @@ class Game
   def start
     puts "\n| Tic-Tac-Toe | ".yellow
     puts "\n(Input the number you'd like your mark to be on)".magenta
-    set_current_player
     init
   end
 
   def init
     loop do
       check_status
+      set_current_player
       puts "\nNext player: " + @current_player.red
       print_table
 
@@ -45,7 +45,6 @@ class Game
   def update_table(position, current_player)
     @table[position - 1] = current_player
     @x_is_next = !@x_is_next
-    set_current_player
   end
 
   def valid_input?(input)
