@@ -1,19 +1,19 @@
-require 'colorize'
+require "colorize"
 
 class GameHelper
-  def self.sketch(contents)
+  def self.sketch(table)
     "
     -------------------
-    |  #{contents[0].red}  |  #{contents[1].red}  |  #{contents[2].red}  |
+    |  #{table[0].red}  |  #{table[1].red}  |  #{table[2].red}  |
     -------------------
-    |  #{contents[3].red}  |  #{contents[4].red}  |  #{contents[5].red}  |
+    |  #{table[3].red}  |  #{table[4].red}  |  #{table[5].red}  |
     -------------------
-    |  #{contents[6].red}  |  #{contents[7].red}  |  #{contents[8].red}  |
+    |  #{table[6].red}  |  #{table[7].red}  |  #{table[8].red}  |
     -------------------
     "
   end
 
-  def self.calculate_winner(contents)
+  def self.calculate_winner(table)
     rows = [
       [0, 1, 2],
       [3, 4, 5],
@@ -26,10 +26,19 @@ class GameHelper
     ]
     rows.each do |row|
       a, b, c = row
-      if (contents[a] && (contents[a] == contents[b]) && (contents[a] == contents[c]))
-        return contents[a]
+      if (table[a] && (table[a] == table[b]) && (table[a] == table[c]))
+        return true
       end
     end
     return false
+  end
+
+  def self.calculate_tie(table)
+    count = table.count("X") + table.count("O")
+    if count == 9
+      return true
+    else
+      return false
+    end
   end
 end
