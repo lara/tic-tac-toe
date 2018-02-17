@@ -1,5 +1,6 @@
 require "colorize"
 
+# Helps clean out the sketch and game logic from the Game class.
 class GameHelper
   def self.sketch(table)
     "
