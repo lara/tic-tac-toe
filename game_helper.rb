@@ -4,13 +4,21 @@ class GameHelper
   def self.sketch(table)
     "
     -------------------
-    |  #{table[0].red}  |  #{table[1].red}  |  #{table[2].red}  |
+    |  #{colorize(table[0])}  |  #{colorize(table[1])}  |  #{colorize(table[2])}  |
     -------------------
-    |  #{table[3].red}  |  #{table[4].red}  |  #{table[5].red}  |
+    |  #{colorize(table[3])}  |  #{colorize(table[4])}  |  #{colorize(table[5])}  |
     -------------------
-    |  #{table[6].red}  |  #{table[7].red}  |  #{table[8].red}  |
+    |  #{colorize(table[6])}  |  #{colorize(table[7])}  |  #{colorize(table[8])}  |
     -------------------
     "
+  end
+
+  def self.colorize(string)
+    if string == "X" || string == "O"
+      string.red
+    else
+      string.white
+    end
   end
 
   def self.calculate_winner(table)
