@@ -35,7 +35,7 @@ class GameHelper
         return true
       end
     end
-    return false
+    false
   end
 
   def self.calculate_tie(table)

@@ -12,5 +12,5 @@
 
 ## Styling
 
-[ ] `return` as the last statement in a Ruby method is redundant.
+[x] `return` as the last statement in a Ruby method is redundant.
 [ ] Let's discuss about linters (rubocop/reek).
