@@ -2,6 +2,12 @@ require "colorize"
 
 # Helps clean out the sketch and game logic from the Game class.
 class GameHelper
+  attr_reader :table
+
+  def initialize(table)
+    @table = table
+  end
+
   def self.sketch(table)
     "
     -------------------
@@ -18,27 +24,79 @@ class GameHelper
     (string == "X" || string == "O") ? string.red : string.white
   end
 
-  def self.calculate_win(table)
-    rows = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ]
-    rows.each do |row|
-      a, b, c = row
-      if ((table[a] == table[b]) && (table[a] == table[c]))
-        return true
-      end
-    end
-    return false
+  def calculate_win
+    rows || columns || diagonal || antidiagonal
   end
 
-  def self.calculate_tie(table)
-    (table.count("X") + table.count("O") == 9) ? true : false
+  def rows
+    index = 0
+    row = []
+
+    length.times do
+      length.times do
+        row << table[index]
+        index += 1
+      end
+      if all_same? row
+        return true
+      end
+      row = []
+    end
+
+    false
+  end
+
+  def columns
+    column = []
+
+    length.times.with_index do |incrementor|
+      index = 0 + (incrementor - 1)
+      length.times do
+        column << table[index]
+        index += length
+      end
+      if all_same? column
+        return true
+      end
+      column = []
+    end
+
+    false
+  end
+
+  def diagonal
+    index = 0
+    diagonal = []
+
+    length.times do
+      diagonal << table[index]
+      index += (length + 1)
+    end
+
+    all_same? diagonal
+  end
+
+  def antidiagonal
+    index = length - 1
+    antidiagonal = []
+
+    length.times do
+      antidiagonal << table[index]
+      index += (length - 1)
+    end
+
+    all_same? antidiagonal
+  end
+
+  def length
+    Math.sqrt(table.size).to_i
+  end
+
+  def all_same?(array)
+    array.all? { |element| (element == "X") }  || array.all? { |element| (element == "O") }
+  end
+
+  def calculate_tie
+    (table.count("X") + table.count("O") == table.size) ? true : false
   end
 end
