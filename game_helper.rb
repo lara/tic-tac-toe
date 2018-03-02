@@ -18,24 +18,82 @@ class GameHelper
     (string == "X" || string == "O") ? string.red : string.white
   end
 
+  # TODO : Refactor calculate_win to work with components
   def self.calculate_win(table)
-    rows = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ]
-    rows.each do |row|
-      a, b, c = row
-      if ((table[a] == table[b]) && (table[a] == table[c]))
+    # calculate_rows(table)
+    # calculate_columns(table)
+    # calculate_diagonal(table)
+    # calculate_antidiagonal(table)
+  end
+
+  def self.calculate_antidiagonal(table)
+    length = Math.sqrt(table.size).to_i
+    index = length - 1
+    antidiagonal = []
+
+    length.times do
+      antidiagonal << table[index]
+      index += (length - 1)
+    end
+
+    if antidiagonal.all? { |element| (element == "X") || (element == "O") }
+      return true
+    else
+      return false
+    end
+  end
+
+  def self.calculate_diagonal(table)
+    length = Math.sqrt(table.size).to_i
+    index = 0
+    diagonal = []
+
+    length.times do
+      diagonal << table[index]
+      index += (length + 1)
+    end
+
+    if diagonal.all? { |element| (element == "X") || (element == "O") }
+      return true
+    else
+      return false
+    end
+  end
+
+  def self.calculate_rows(table)
+    length = Math.sqrt(table.size).to_i
+    index = 0
+    row = []
+
+    length.times do
+      length.times do
+        row << table[index]
+        index += 1
+      end
+      if row.all? { |element| (element == "X") || (element == "O") }
         return true
       end
+      row = []
     end
-    false
+    return false
+  end
+
+  def self.calculate_columns(table)
+    length = Math.sqrt(table.size).to_i
+    column = []
+
+    length.times.with_index do |incrementor|
+      index = 0 + (incrementor - 1)
+      length.times do
+        column << table[index]
+        index += length
+      end
+      if column.all? { |element| (element == "X") || (element == "O") }
+        return true
+      end
+      column = []
+    end
+    return false
   end
 
   def self.calculate_tie(table)
