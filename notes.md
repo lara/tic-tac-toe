@@ -6,7 +6,7 @@
 
 ## Improvements
 
-[ ] In the `GameHelper`, the `#calculate_win` has a predefined array of rows to
+[x] In the `GameHelper`, the `#calculate_win` has a predefined array of rows to
   check for the win condition. Let's make this scalable.
 [ ] Let's write some specs.
 

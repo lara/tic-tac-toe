@@ -19,6 +19,7 @@ class Game
   def next_turn
     check_status
     set_current_player unless @invalid_input
+    @invalid_input = false
     puts "\nNext player: " + @current_player.red
     print_table
     input = gets.chomp
@@ -60,11 +61,11 @@ class Game
   end
 
   def win?
-    GameHelper.calculate_win(@table)
+    GameHelper.new(@table).calculate_win
   end
 
   def tie?
-    GameHelper.calculate_tie(@table)
+    GameHelper.new(@table).calculate_tie
   end
 
   def handle_win

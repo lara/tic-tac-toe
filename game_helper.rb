@@ -2,6 +2,12 @@ require "colorize"
 
 # Helps clean out the sketch and game logic from the Game class.
 class GameHelper
+  attr_reader :table
+
+  def initialize(table)
+    @table = table
+  end
+
   def self.sketch(table)
     "
     -------------------
@@ -18,50 +24,11 @@ class GameHelper
     (string == "X" || string == "O") ? string.red : string.white
   end
 
-  # TODO : Refactor calculate_win to work with components
-  def self.calculate_win(table)
-    # calculate_rows(table)
-    # calculate_columns(table)
-    # calculate_diagonal(table)
-    # calculate_antidiagonal(table)
+  def calculate_win
+    rows || columns || diagonal || antidiagonal
   end
 
-  def self.calculate_antidiagonal(table)
-    length = Math.sqrt(table.size).to_i
-    index = length - 1
-    antidiagonal = []
-
-    length.times do
-      antidiagonal << table[index]
-      index += (length - 1)
-    end
-
-    if antidiagonal.all? { |element| (element == "X") || (element == "O") }
-      return true
-    else
-      return false
-    end
-  end
-
-  def self.calculate_diagonal(table)
-    length = Math.sqrt(table.size).to_i
-    index = 0
-    diagonal = []
-
-    length.times do
-      diagonal << table[index]
-      index += (length + 1)
-    end
-
-    if diagonal.all? { |element| (element == "X") || (element == "O") }
-      return true
-    else
-      return false
-    end
-  end
-
-  def self.calculate_rows(table)
-    length = Math.sqrt(table.size).to_i
+  def rows
     index = 0
     row = []
 
@@ -70,16 +37,16 @@ class GameHelper
         row << table[index]
         index += 1
       end
-      if row.all? { |element| (element == "X") || (element == "O") }
+      if all_same? row
         return true
       end
       row = []
     end
-    return false
+
+    false
   end
 
-  def self.calculate_columns(table)
-    length = Math.sqrt(table.size).to_i
+  def columns
     column = []
 
     length.times.with_index do |incrementor|
@@ -88,15 +55,48 @@ class GameHelper
         column << table[index]
         index += length
       end
-      if column.all? { |element| (element == "X") || (element == "O") }
+      if all_same? column
         return true
       end
       column = []
     end
-    return false
+
+    false
   end
 
-  def self.calculate_tie(table)
-    (table.count("X") + table.count("O") == 9) ? true : false
+  def diagonal
+    index = 0
+    diagonal = []
+
+    length.times do
+      diagonal << table[index]
+      index += (length + 1)
+    end
+
+    all_same? diagonal
+  end
+
+  def antidiagonal
+    index = length - 1
+    antidiagonal = []
+
+    length.times do
+      antidiagonal << table[index]
+      index += (length - 1)
+    end
+
+    all_same? antidiagonal
+  end
+
+  def length
+    Math.sqrt(table.size).to_i
+  end
+
+  def all_same?(array)
+    array.all? { |element| (element == "X") }  || array.all? { |element| (element == "O") }
+  end
+
+  def calculate_tie
+    (table.count("X") + table.count("O") == table.size) ? true : false
   end
 end
